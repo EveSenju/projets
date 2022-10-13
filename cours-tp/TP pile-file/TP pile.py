@@ -117,13 +117,13 @@ print(trie_pile(pil))
     
         
         
-"""       
+      
 p = Pile()
 p.empile(5)
 p.empile(8)
 p.empile(14)
 p.empile(7)
-"""
+
 
 
 

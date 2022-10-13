@@ -1,1 +1,1 @@
-# Github pour les projets de groupe
+# Github pour les projets de groupes

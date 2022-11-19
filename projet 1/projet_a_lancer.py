@@ -1,4 +1,4 @@
-from projet1 import *
+from projet_code import *
 
 Starto()
 

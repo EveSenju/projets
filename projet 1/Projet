@@ -1,0 +1,214 @@
+from random import*
+
+class Personnage:
+    def __init__(self,pseudo,genre,classe,level = 1,xp = 0,PV = 1,PM = 0,ATK = 10,DEF = 10,arme_principal = None,arme_secondaire = None,article = None,gold = 100,n = 100):
+        """
+        Class qui crée un Personnage .
+        param pseudo : (str) Pseudo
+        param genre : (str) Genre du Personnage
+        param level : (int) Niveau
+        param xp : (int) points d'expérience
+        param PV : (int) Point de Vie
+        param PM : (int) Point de Magie ( C'est comme du Mana , c'est pas de la puissance magique (je précise) )
+        param ATK : (int) Attaque
+        param DEF : (int) Defense
+        param article : (str) article définie , "le" ou "la" ( C'est pour les dialoque entre PNG pour savoir si on dis le Guerrier ou la Guerrière par exemple )
+        param gold : (int) C'est l'Argent du Personnage
+        param n : (int) Variable permettant de doublé L'XP nécessaire pour gagner un Niveau
+        param arme_principal : (str) arme principal du Personnage
+        param arme_secondaire : (str) arme secondaire du Personnage
+        """
+        self.pseudo = pseudo
+        self.genre = genre
+        self.classe = classe
+        self.level = level
+        self.PV = PV
+        self.PM = PM
+        self.ATK = ATK
+        self.DEF = DEF
+        self.arme_principal = arme_principal
+        self.arme_secondaire = arme_secondaire
+        self.article = article
+        self.gold = gold
+        self.xp = xp
+        self.n = n
+        if self.genre == "H":
+            self.genre = "Homme"
+            self.article = "le"
+        if self.genre == "F":
+            self.genre = "Femme"
+            self.article = "la"
+        elif self.genre != "Homme" and self.genre != "Femme" :
+            self.genre = input("Vous avez mal écrit votre genre, réécrivez le (H/F):")
+    def Xp(self):
+        """
+        Méthode Xp permettant de gérer les points d'expérience obtenu et de gérer les levels
+        """
+        if self.xp >= self.n :
+            self.level += 1
+            perso.Level()
+            self.n = self.n*2
+            print("Vous passez au level "+str(perso.level)+" Bien Joué !")
+            print(perso)
+            return perso.Xp()
+    def Level(self):
+        """
+        Méthode Level qui permet d'augmenter ses stats quand on augmente de Niveau
+        """
+        self.PV += randint(10,20)
+        self.PM += randint(10,20)
+        self.ATK += randint(1,2)
+        self.DEF += randint(1,2)
+        self.gold += randint(50,100)
+    def Combat(self):
+        """
+        Méthode Combat permettant de gérer les Combats entre le personnage et les ennemis
+        """
+        return
+    def classes(self):
+        """
+        Méthode classes permettant de choisir les classes du personnage et permettant ainsi de leurs attribuer leurs valeurs de PV , PM , ATK , DEF et leurs armes 
+        """
+        if self.classe == "Guerrier" or self.classe == "Guerrière" :
+            self.arme_principale = "épée"
+            self.arme_secondaire = "bouclier"
+            self.PV = 250
+            self.PM = 100
+            self.DEF = 15
+            return self.classe
+        elif self.classe == "Archer" or self.classe == "Archère" :
+            self.arme_principale = "Arc"
+            self.arme_secondaire = "Dague"
+            self.PV = 150
+            self.PM = 100
+            self.ATK = 15
+            return self.classe
+        elif self.classe == "Mage" :
+            self.arme_principale = "Baguette Magique"
+            self.arme_secondaire = "Livre"
+            self.PV = 100
+            self.PM = 300
+            return self.classe
+        else :
+            print("Classe non disponible ou mal écrite")
+            self.classe = input("Choisissez une autre classe (Guerrier/Guerrière , Archer/Archère ou Mage) ? :")
+            return self.classe
+    def __repr__(self):
+        """
+        Méthode __repr__ qui permet d'afficher les stats du Personnage
+        """
+        return "\nSTATS:\n\nPseudo : "+self.pseudo+"\nGenre : "+self.genre+"\nClasse : "+self.classe+"\nNiveau : "+str(self.level)+"\nXP : "+str(self.xp)+"\nProchain Niveau dans : "+str(self.n - self.xp)+"xp"+"\nPV : "+str(self.PV)+"\nPM : "+str(self.PM)+"\nATK : "+str(self.ATK)+"\nDEF : "+str(self.DEF)+"\nGold : "+str(self.gold)
+
+class Squelette:
+    def __init__(self,level,PV = 50,ATK = 10,DEF = 5,arme_principal = "épée",arme_secondaire = None):
+        """
+        Class qui crée un Squelette .
+        param level : (int) Niveau
+        param PV : (int) Point de Vie
+        param ATK : (int) Attaque
+        param DEF : (int) Defense
+        param arme_principal : (str) arme principal du Squelette
+        param arme_secondaire : (str) arme secondaire du Squelette
+        """
+        self.level = level
+        self.PV = PV*(1+self.level/5)
+        self.ATK = ATK*(1+self.level/10)
+        self.DEF = DEF*(1+self.level/10)
+        self.arme_principal = arme_principal
+        self.arme_secondaire = arme_secondaire
+
+
+def Trésor():
+    """
+    Fonction Trésors permettant de gérer les Trésors obtenu , Gains d'expérience et de gold
+    param aléa : (int) Variable aléatoire
+    param Gxp : (int) Variable qui me permet d'afficher mon gains d'expérience
+    param Ggold : (int) Variable qui me permet d'afficher mon gains de gold
+    """
+    aléa = randint(1,2)
+    if aléa == 1 :
+        Gxp = randint(100,700)
+        perso.xp += Gxp
+        Ggold = randint(50,200)
+        perso.gold += Ggold
+        perso.Xp()
+        return "Vous avez gagnez "+str(Ggold)+"gold et "+str(Gxp)+"xp"
+    elif aléa == 2 :
+        Gxp = randint(100,200)
+        perso.xp += Gxp
+        Ggold = randint(200,500)
+        perso.gold += Ggold
+        perso.Xp()
+        return "Vous avez gagnez "+str(Ggold)+"gold et "+str(Gxp)+"xp"
+
+def Mort():
+    """
+    Fonction Mort qui permet de voir si le Personnage est Mort
+    """
+    if perso.PV <= 0 :
+        print("Vous êtes mort")
+        return True
+    else:
+        return False
+
+def Aventure():
+    """
+    Fonction Aventure qui permet de faire un Choix entre les deux Aventures pour les séparer en deux
+    param Choix : (str) Variable permettant de faire un choix entre Manoir ou Forêt
+    """
+    Choix = input("Voulez vous commencer l'Aventure dans le Manoir ou dans la Forêt ? (M/F) : ")
+    if Choix == 'M' :
+        Manoir()
+    elif Choix == 'F' :
+        Foret()
+
+def Manoir():
+    """
+    Fonction Manoir qui permet de commencer l'Aventure dans le Manoir
+    param Porte : (str) Variable permettant de faire un choix entre La porte 1 , 2 ou 3
+    param C31 : (str) Variable permettant de faire un choix entre Oui ou Non 
+    """
+    print("Vous apparaissez dans un Manoir , vous êtes actuellement dans le Hall")
+    Porte = input("Vous vous trouvez devant trois portes une à droite de vous , une devant vous et une à gauche de vous , laquelles choississez-vous ? (1/2/3) : ")
+    if Porte == '1' :
+        print("Vous tomber face à un Squelette /nIl ne vous a pas encore vu")
+        C11 = input("Attaquer ou Contourner ? (A/C) : ")
+        if C11 == 'A':
+            return perso.Combat()
+        elif C11 == 'C':
+            chance11 = randint(0,10)
+            if chance11 >= 7 :
+                print("Vous avez réussi à le contourner Bien joué !")
+            elif chance11 < 7 :
+                print("Vous avez échouez il vous a vu")
+    elif Porte == '2' :
+        print("Vous tomber face à un Goblin")
+        return
+    elif Porte == '3' :
+        C31 = input("Vous vous trouvez dans un piece seul avec un coffre devant vous .\nVoulez vous le prendre ? (O/N) : ")
+        if C31 == 'O' :
+            return print(Trésor())
+        elif C31 == 'N' :
+            return
+            
+
+def Foret():
+    """
+    Fonction Forêt qui permet de commencer l'Aventure dans la Forêt
+    """
+    print("Vous apparaissez dans une Forêt")
+
+################################################################################################################################################################################################
+
+Start = input("Voulez vous commencer l'Aventure ? (O/N) : ")
+if Start == 'O' :
+    pseudo = input("Quel est ton pseudo ? :")
+    genre = input("Quel est ton genre ? (H/F) :")
+    classe = input ("Quelle classe choisit tu (Guerrier/Guerrière , Archer/Archère ou Mage) ? :")
+    perso = Personnage(pseudo,genre,classe)
+    perso.classes()
+    print(perso)
+    Aventure()
+else :
+    print("Dommage !")
+
